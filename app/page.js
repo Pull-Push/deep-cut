@@ -1,3 +1,5 @@
+import SearchBar from "@/app/components/SearchBar";
+
 export default function Home() {
   return (
     <main
@@ -9,7 +11,7 @@ export default function Home() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="flex flex-col items-center gap-6 w-full max-w-2xl" style={{ marginTop: '32rem '}}>
+      <div className="flex flex-col items-center gap-6 w-full max-w-2xl" style={{ marginTop: '32rem'}}>
 
         {/* Subtitle */}
         <p className="text-zinc-300 text-lg tracking-wide">
@@ -17,13 +19,7 @@ export default function Home() {
         </p>
 
         {/* Search bar */}
-        <div className="w-full">
-          <input
-            type="text"
-            placeholder="Search an artist, album, or label..."
-            className="w-full rounded-full bg-black/50 px-6 py-4 text-white placeholder-zinc-400 outline-none focus:ring-2 focus:ring-purple-500 backdrop-blur-sm"
-          />
-        </div>
+        <SearchBar />
 
       </div>
     </main>
