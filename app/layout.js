@@ -1,5 +1,7 @@
 import { Geist } from "next/font/google";
 import "./globals.css";
+import SignInButton from "@/app/components/SignInButton";
+import { getUser } from "@/lib/spotify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,7 +14,8 @@ export const metadata = {
   description: "Discover music by label, genre, and beyond",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const user = await getUser();
   return (
     <html lang="en" className={`${geistSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-zinc-950 text-white">
@@ -20,7 +23,13 @@ export default function RootLayout({ children }) {
         {/* NAV BAR */}
         <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-black/60 backdrop-blur-md">
           <span className="text-white font-bold tracking-wide">Deep Cut</span>
-          <span className="'text-zinc-400 text-sm">Sign in</span>
+          { user ? (
+            <span className="text-sm text-zinc-300">
+              {user.display_name}
+            </span>
+          ):(
+            <SignInButton />
+          )}
         </nav>
 
         {/* PAGE CONTENT */}
