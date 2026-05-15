@@ -47,7 +47,7 @@ export default async function SearchPage({ searchParams}) {
             {/* ALBUMS */}
             <section className="mb-12">
                 <h2 className="text-lg font-semibold text-zinc-300 mb-4">Albums</h2>
-                <div className="grid grid-cols-2 sm:grind-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                     {results.albums.items.map((album) => (
                         <div key={album.id} className="flex flex-col gap-2 p-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 transition-colors cursor-pointer">
                             <Image src={album.images[1]?.url ?? "/placeholder.png"} alt={album.name} width={300} height={300} className="w-full aspect-square object-cover rounded-lg"/>
@@ -57,6 +57,7 @@ export default async function SearchPage({ searchParams}) {
                         </div>
                     ))}
                 </div>
+                </section>
                 {/* TRACKS */}
                 <section className="mb-12">
                     <h2 className="text-lg font-semibold text-zinc-300 mb-4">Tracks</h2>
@@ -64,7 +65,7 @@ export default async function SearchPage({ searchParams}) {
                         {results.tracks.items.map((track, index) =>(
                             <div key={track.id} className="flex items-center gap-4 p-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 transition-colors cursor-pointer">
                                 {/* Track Number */}
-                                <span className="tetx-zinc-500 text-sm w-4 text-right">{index+1}</span>
+                                <span className="text-zinc-500 text-sm w-4 text-right">{index+1}</span>
                                 {/*  Album Art */}
                                 <Image src={track.album.images[1]?.url ?? "/placeholder.png"} alt={track.album.name} width={48} height={48} className="rounded-md"/>
                                 {/* Track Info */}
@@ -82,7 +83,6 @@ export default async function SearchPage({ searchParams}) {
                         ))}
                     </div>
                 </section>
-            </section>
         </div>
     )
 
