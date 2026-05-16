@@ -2,6 +2,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import SignInButton from "@/app/components/SignInButton";
 import { getUser } from "@/lib/spotify";
+import Player from "@/app/components/Player";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,7 +40,7 @@ export default async function RootLayout({ children }) {
         
         {/* PLAYER BAR */}
           <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center px-6 py-4 bg-zinc-900 border-t border-zinc-800">
-            <span className="text-zinc-500 text-sm">No track playing</span>
+            <Player />
           </div>
         </body>
     </html>
