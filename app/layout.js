@@ -2,6 +2,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import SignInButton from "@/app/components/SignInButton";
 import { getUser } from "@/lib/spotify";
+import { PlayerProvider } from "@/app/context/PlayerContext";
 import Player from "@/app/components/Player";
 
 const geistSans = Geist({
@@ -20,7 +21,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-zinc-950 text-white">
-        
+        <PlayerProvider>
         {/* NAV BAR */}
         <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-black/60 backdrop-blur-md">
           <span className="text-white font-bold tracking-wide">Deep Cut</span>
@@ -42,6 +43,7 @@ export default async function RootLayout({ children }) {
           <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center px-6 py-4 bg-zinc-900 border-t border-zinc-800">
             <Player />
           </div>
+          </PlayerProvider>
         </body>
     </html>
   );

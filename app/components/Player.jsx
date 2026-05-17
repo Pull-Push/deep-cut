@@ -2,13 +2,13 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import Script from "next/script"
+import { usePlayer } from "@/app/context/PlayerContext"
 
 export default function Player(){
     const [player, setPlayer] = useState(null)
-    const [currentTrack, setCurrentTrack] = useState(null)
-    const [isPaused, setIsPaused] = useState(true)
     const [isActive, setIsActive] = useState(false)
     const [accessToken, setAccessToken] = useState(null)
+    const {deviceId, setDeviceId, currentTrack, setCurrentTrack, isPaused, setIsPaused } = usePlayer();
 
 
     useEffect(() =>{
@@ -37,7 +37,8 @@ export default function Player(){
         
         spotifyPlayer.addListener("ready", ({device_id}) => {
             console.log('Ready with device ID', device_id);
-            setPlayer(spotifyPlayer)
+            setPlayer(spotifyPlayer);
+            setDeviceId(device_id)
         });
 
         spotifyPlayer.addListener("not_ready", ({device_id}) =>{

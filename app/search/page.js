@@ -1,11 +1,6 @@
 import Image from "next/image";
 import { searchSpotify } from "@/lib/spotify";
-
-function formatDuration(ms){
-    const minutes = Math.floor(ms / 60000)
-    const seconds = Math.floor((ms%60000) /1000)
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`
-}
+import TrackRow from "@/app/components/TrackRow";
 
 export default async function SearchPage({ searchParams}) {
     const resolved = await searchParams;
@@ -57,33 +52,21 @@ export default async function SearchPage({ searchParams}) {
                         </div>
                     ))}
                 </div>
-                </section>
+            </section>
                 {/* TRACKS */}
                 <section className="mb-12">
                     <h2 className="text-lg font-semibold text-zinc-300 mb-4">Tracks</h2>
                     <div className="flex flex-col gap-2">
-                        {results.tracks.items.map((track, index) =>(
-                            <div key={track.id} className="flex items-center gap-4 p-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 transition-colors cursor-pointer">
-                                {/* Track Number */}
-                                <span className="text-zinc-500 text-sm w-4 text-right">{index+1}</span>
-                                {/*  Album Art */}
-                                <Image src={track.album.images[1]?.url ?? "/placeholder.png"} alt={track.album.name} width={48} height={48} className="rounded-md"/>
-                                {/* Track Info */}
-                                <div className="flex flex-col flex-1 min-w-0">
-                                    <p className="text-sm text-white font-medium truncate">{track.name}</p>
-                                    <p className="text-xs text-zinc-400 truncate">{track.artists[0].name} · {track.album.name}</p>
-                                </div>
-                                {/* Explicit Badge */}
-                                {track.explicit && (
-                                    <span className="text-xs text-zinc-400 bg-zinc-700 px-1.5 py-0.5 rounded">E</span>
-                                )}
-                                {/* Duration */}
-                                <span className="text-xs text-zinc-400">{formatDuration(track.duration_ms)}</span>
-                            </div>
+                        {results.tracks.items.map((track, index) => (
+                            <TrackRow 
+                                key={track.id} 
+                                track={track} 
+                                index={index}
+                                allTracks={results.tracks.items}
+                            />
                         ))}
                     </div>
                 </section>
         </div>
     )
-
 }
