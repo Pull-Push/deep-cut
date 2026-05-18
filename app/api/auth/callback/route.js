@@ -22,5 +22,5 @@ export async function GET(request) {
         path:"/",
     });
 
-    return Response.redirect(new URL("/", request.url))
+    return Response.redirect(new URL(process.env.NEXT_PUBLIC_APP_URL))
 }
