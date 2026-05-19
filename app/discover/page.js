@@ -2,15 +2,20 @@ import Image from "next/image";
 import { searchSpotify } from "@/lib/spotify";
 import TrackRow from "@/app/components/TrackRow";
 
-export default async function SearchPage({ searchParams}) {
+export default async function DiscoverPage({ searchParams}) {
     const resolved = await searchParams;
     const query = resolved.q
     if(!query){
         return(
-            <div className="flex min-h-screen items-center justify-center">
-                <p className="text-zinc-400">Enter a search term to get started</p>
+            <div className="flex min-h-screen flex-col items-center justify-center gap-4" style={{
+                backgroundImage: "url('/bg-blank.PNG')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+            }}>
+                <p className="text-zinc-400 text-lg">Search for an artist, album, or label to get started</p>
             </div>
-        )
+        ) 
     }
     const results = await searchSpotify(query);
     if(!results){
@@ -22,7 +27,7 @@ export default async function SearchPage({ searchParams}) {
     }
 
     return(
-        <div className="min-h-screen px-6 pt-28 pb-32">
+        <div className="min-h-screen px-6 pt-28 pb-32" style={{ backgroundImage: "url('/bg-blank.PNG')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
             <h1 className="text-2xl font-bold text-white mb-8">
                 Results for <span className="text-purple-400"> &quot;{query}&quot; </span>
             </h1>

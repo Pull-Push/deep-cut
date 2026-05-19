@@ -10,7 +10,7 @@ export default function SearchBar(){
     function handleSearch(e){
         e.preventDefault();
         if(!query.trim()) return;
-        router.push(`/search?q=${encodeURIComponent(query)}`);
+        router.push(`/discover?q=${encodeURIComponent(query)}`);
     }
 
 

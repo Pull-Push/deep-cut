@@ -32,7 +32,7 @@ export default function Player(){
             const spotifyPlayer = new window.Spotify.Player({
                 name: "Deep Cut",
                 getOAuthToken: (cb) => cb(accessToken),
-                volume:0.5,
+                volume:1.0,
             });
         
         spotifyPlayer.addListener("ready", ({device_id}) => {

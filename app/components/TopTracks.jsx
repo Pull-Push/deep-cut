@@ -46,7 +46,7 @@ export default function TopTracks({ initialData }){
                     {tracks.map((track) => (
                         <div key={track.id} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-black/40 hover:bg-black/60 transition-colors cursor-pointer">
                             <Image src={track.album.images[0]?.url ?? "/placeholder.png"} alt={track.name} width={300} height={300} className="w-full aspect-square object-cover rounded-lg"/>
-                            <p className="text-sm text-white font-medium text-center truncate w-full">{track.name} - {track.explicit ? "E" : ""}</p>
+                            <p className="text-sm text-white font-medium text-center truncate w-full">{track.name}{track.explicit ? " - E" : ""}</p>
                         </div>
                     ))}
                 </div>
