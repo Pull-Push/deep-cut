@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { searchSpotify } from "@/lib/spotify";
+import AlbumCard from "@/app/components/AlbumCard";
+import ArtistCard from "@/app/components/ArtistCard";
 import TrackRow from "@/app/components/TrackRow";
 
 export default async function DiscoverPage({ searchParams}) {
@@ -37,10 +39,7 @@ export default async function DiscoverPage({ searchParams}) {
                 <h2 className="text-lg font-semibold text-zinc-300 mb-4">Artists</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                     {results.artists.items.map((artist) =>(
-                            <div key={artist.id} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 transition-colors cursor-pointer">
-                                <Image src={artist.images[1]?.url ?? "/placeholder.png"} alt={artist.name} width={300} height={300} className="w-full aspect-square object-cover rounded-full"/>
-                                <p className="text-sm text-white font-medium text-center"> {artist.name} </p>
-                            </div>
+                        <ArtistCard key={artist.id} artist={artist} />
                     ))}
                 </div>
             </section>
@@ -49,12 +48,7 @@ export default async function DiscoverPage({ searchParams}) {
                 <h2 className="text-lg font-semibold text-zinc-300 mb-4">Albums</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                     {results.albums.items.map((album) => (
-                        <div key={album.id} className="flex flex-col gap-2 p-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 transition-colors cursor-pointer">
-                            <Image src={album.images[1]?.url ?? "/placeholder.png"} alt={album.name} width={300} height={300} className="w-full aspect-square object-cover rounded-lg"/>
-                            <p className="text-sm text-white font-medium">{album.name}</p>
-                            <p className="text-xs text-zinc-400">{album.artists[0].name}</p>
-                            <p className="text-xs text-zinc-500">{album.release_date.slice(0,4)}</p>
-                        </div>
+                        <AlbumCard key={album.id} album={album} />
                     ))}
                 </div>
             </section>

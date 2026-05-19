@@ -2,13 +2,14 @@
 
 import { useState } from "react"
 import Image from "next/image"
-
+import { useRouter } from "next/navigation"
 export default function TopArtists({ initialData }){
     
     const[ timeRange, setTimeRange ] = useState("medium_term")
     const [artists, setArtists ] = useState(initialData?.items ?? [])
     const [loading, setLoading ] = useState(false)
 
+    const router = useRouter();
     async function handleTimeRange(range) {
         if(range === timeRange ) return
 
@@ -44,7 +45,7 @@ export default function TopArtists({ initialData }){
             ):(
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                     {artists.map((artist) => (
-                        <div key={artist.id} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-black/40 hover:bg-black/60 transition-colors cursor-pointer">
+                        <div key={artist.id} onClick={() => router.push(`/discover?q=${artist.name}`)} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-black/40 hover:bg-black/60 transition-colors cursor-pointer">
                             <Image src={artist.images[1]?.url ?? "/placeholder.png"} alt={artist.name} width={300} height={300} className="w-full aspect-square object-cover rounded-full"/>
                             <p className="text-sm text-white font-medium text-center truncate w-full">{artist.name}</p>
                         </div>
