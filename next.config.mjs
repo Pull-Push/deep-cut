@@ -10,9 +10,13 @@ const nextConfig = {
         protocol:"https",
         hostname:"*.fbcdn.net"
       },
-            {
+      {
         protocol:"https",
         hostname:"*.spotifycdn.com"
+      },
+      {
+        protocol:"https",
+        hostname: "*.discogs.com"
       }
     ],
   },

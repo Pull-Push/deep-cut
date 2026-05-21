@@ -1,9 +1,10 @@
-import SignInButton from "@/app/components/SignInButton";
+import SearchBar from "@/app/components/SearchBar";
+
 
 export default function Home(){
   return(
     <main
-  className="flex min-h-screen flex-col justify-center px-12 sm:px-24"
+  className="flex min-h-screen flex-col justify-center px-24 sm:px-24"
   style={{
     backgroundImage: "url('/bg-blank.PNG')",
     backgroundSize: "cover",
@@ -29,7 +30,8 @@ export default function Home(){
         Discover music by label, genre, and beyond
       </p>
     </div>
-    <SignInButton />
+    <SearchBar />
+    <button disabled className="cursor-not-allowed opacity-50">Sign In With Spotify</button>
   </div>
 </main>
   )
