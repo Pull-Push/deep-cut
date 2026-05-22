@@ -17,6 +17,9 @@ const nextConfig = {
       {
         protocol:"https",
         hostname: "*.discogs.com"
+      },
+      {protocol:"https",
+        hostname: "lastfm.freetls.fastly.net"
       }
     ],
   },

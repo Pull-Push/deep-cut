@@ -1,10 +1,9 @@
-import Image from "next/image";
-import { searchSpotify } from "@/lib/spotify";
 import AlbumCard from "@/app/components/AlbumCard";
 import ArtistCard from "@/app/components/ArtistCard";
 import TrackRow from "@/app/components/TrackRow";
-import { searchDiscogs, searchDiscogsLabel } from "@/lib/discogs";
-import { getArtist } from "@/lib/lastfm";
+import LabelCard from "@/app/components/LabelCard";
+import {searchAlbum, searchTrack } from "@/lib/lastfm";
+import { searchDiscogsLabel, searchDiscogsArtist } from "@/lib/discogs";
 
 export default async function DiscoverPage({ searchParams}) {
     const resolved = await searchParams;
@@ -21,43 +20,66 @@ export default async function DiscoverPage({ searchParams}) {
             </div>
         ) 
     }
-    // const results = await searchSpotify(query);
-    const discogResults = await searchDiscogsLabel(query);
-    console.log(discogResults)
-    // console.log('discog results', discogResults.results)
-    
-    // const lastfmResults = await getArtist(query)
-    // console.log('lastfm results', lastfmResults.artist.tags)
 
-    // if(!lastfmResults){
-    //     return(
-    //         <div className="flex min-h-screen items-center justify-center">
-    //             <p className="text-zinc-400">Something went wrong. Please try again.</p>
-    //         </div>
-    //     )
-    // }
+    const [artists, albums, tracks, labels] = await Promise.all([searchDiscogsArtist(query), searchAlbum(query), searchTrack(query), searchDiscogsLabel(query)])
+    if(!artists && !albums && !tracks && !labels){
+        return(
+            <div className="flex min-h-screen items-center justify-center">
+                <p className="text-zinc-400">Something went wrong. Please try again</p>
+            </div>
+        )
+    }
+
 
     return(
         <div className="min-h-screen px-6 pt-28 pb-32" style={{ backgroundImage: "url('/bg-blank.PNG')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
             <h1 className="text-2xl font-bold text-white mb-8">
                 Results for <span className="text-purple-400"> &quot;{query}&quot; </span>
             </h1>
-            <div className="">
-                {discogResults.map((result, index) =>(
-                    <div key={index}>
-                        <h2>{result.title}</h2>
-                        <p>{result.type}</p>
-                        {result.thumb ? (
-
-                            <Image src={"" ? "/placeholder.png" : result.thumb} alt={result.title} width={100} height={100}></Image>
-                        ):(
-                            <Image src={"/placeholder.png"} alt={result.title} width={100} height={100}></Image>
-
-                        )
-                        }
+            {/* ARTISTS */}
+            {artists && (
+                <section className="mb-12">
+                    <h2 className="text-lg font-semibold text-zinc-300 mb-4">Artists</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                        {artists.slice(0, 10).map((artist) =>(
+                            <ArtistCard key={artist.id} artist={artist} />
+                        ))}
                     </div>
-                ))}
-            </div>
+                </section>
+            )}
+            {/* ALBUMS */}
+            {albums && (
+                <section className="mb-12">
+                    <h2 className="text-lg font-semibold text-zinc-300 mb-4">Albums</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                        {albums.results.albummatches.album.slice(0,10).map((album) =>(
+                            <AlbumCard key={album.url} album={album} />
+                        ))}
+                    </div>
+                </section>
+            )}
+            {/* TRACKS */}
+            {tracks && (
+                <section className="mb-12">
+                    <h2 className="text-lg font-semibold text-zinc-300 mb-4">Tracks</h2>
+                    <div className="flex flex-col gap-2">
+                    {tracks.results.trackmatches.track.slice(0, 10).map((track, index) => (
+                        <TrackRow key={track.url} track={track} index={index} />
+                    ))}
+                    </div>
+                </section>
+            )}
+            {/* LABELS */}
+            {labels && (
+                <section className="mb-12">
+                    <h2 className="text-lg font-semibold text-zinc-300 mb-4">Labels</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                        {labels.slice(0,10).map((label) => (
+                            <LabelCard key={label.id} label={label} />
+                        ))}
+                    </div>
+                </section>
+            )}
         </div>
     )
 }
