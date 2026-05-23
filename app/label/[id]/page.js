@@ -37,7 +37,6 @@ export default async function LabelPage({ params }) {
     ) 
 }
     const [labelInfo, releases] = await Promise.all([getDiscogsLabelInfo(id), getDiscogsLabelRoster(id)])
-
     if(!releases || !labelInfo){
         return(
             <div className="flex min-h-screen items-center justify-center">
@@ -57,7 +56,7 @@ export default async function LabelPage({ params }) {
         {/* Label Header */}
         <div className="flex items-start gap-8 mb-12">
             <Image
-                src={labelInfo.images[0]?.uri || "/placeholder.png"}
+                src={labelInfo.images?.[0]?.uri || "/placeholder.png"}
                 alt={labelInfo.name}
                 width={200}
                 height={200}
@@ -67,7 +66,9 @@ export default async function LabelPage({ params }) {
                 <h1 className="text-4xl font-bold text-white">{labelInfo.name}</h1>
                 {labelInfo.parent_label && (
                     <p className="text-zinc-400 text-sm">
+                        <Link key={labelInfo.parent_label.id} href={`/label/${labelInfo.parent_label.id}`}>
                         Part of <span className="text-purple-400">{labelInfo.parent_label.name}</span>
+                        </Link>
                     </p>
                 )}
                 <p className="text-zinc-300 text-sm leading-relaxed max-w-2xl">
@@ -78,9 +79,11 @@ export default async function LabelPage({ params }) {
                         <p className="text-zinc-500 text-xs mb-2">Sublabels</p>
                         <div className="flex flex-wrap gap-2">
                             {labelInfo.sublabels.map((sub) => (
-                                <span key={sub.id} className="text-xs bg-zinc-800 text-zinc-300 px-3 py-1 rounded-full">
+                                <Link key={sub.id} href={`/label/${sub.id}`}>
+                                <span className="text-xs bg-zinc-800 text-zinc-300 px-3 py-1 rounded-full">
                                     {sub.name}
                                 </span>
+                                </Link>
                             ))}
                         </div>
                     </div>
