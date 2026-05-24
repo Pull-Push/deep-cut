@@ -37,6 +37,7 @@ export default async function LabelPage({ params }) {
     ) 
 }
     const [labelInfo, releases] = await Promise.all([getDiscogsLabelInfo(id), getDiscogsLabelRoster(id)])
+    
     if(!releases || !labelInfo){
         return(
             <div className="flex min-h-screen items-center justify-center">
@@ -107,6 +108,7 @@ export default async function LabelPage({ params }) {
                         />
                         <p className="text-sm text-white font-medium truncate">{album.title}</p>
                         <p className="text-xs text-zinc-400">{album.artist} · {album.year}</p>
+                        <span className="text-xs bg-zinc-800 text-zinc-300 px-3 py-1 rounded-full">{album.format}</span>
                     </div>
                     </Link>
                 ))}
