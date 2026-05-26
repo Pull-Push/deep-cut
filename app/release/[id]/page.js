@@ -1,8 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-
 import { getDiscogsRelease } from "@/lib/discogs";
-
+import TrackRow from "@/app/components/TrackRow";
 export default async function ReleasePage({ params }) {
         
     const { id } = await params;
@@ -83,18 +82,12 @@ export default async function ReleasePage({ params }) {
         <section className="mb-12">
             <h2 className="text-lg font-semibold text-zinc-300 mb-4">Tracklist</h2>
             <div className="flex flex-col gap-1">
-                {release.tracklist.map((track, index) => (
-                    <div key={index} className="flex items-center gap-4 p-3 rounded-xl bg-black/40 hover:bg-black/60 transition-colors">
-                        <span className="text-zinc-500 text-sm w-8">{track.position}</span>
-                        <span className="text-white text-sm flex-1">{track.title}</span>
-                        {track.duration && (
-                            <span className="text-zinc-400 text-xs">{track.duration}</span>
-                        )}
-                    </div>
-                ))}
-            </div>
-        </section>
-
+                {release.tracklist
+                    .filter(track => track.type_ === 'track').map((track, index) => (
+                        <TrackRow key={index} track={{name: track.title, artist: release.artists[0]?.name ?? '',}}index={index}/>
+                    ))}
+                </div>
+            </section>
         {/* Notes */}
         {release.notes && (
             <section className="mb-12">
