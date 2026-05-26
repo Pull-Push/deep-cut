@@ -75,9 +75,11 @@ const pastMembers = discogsArtist.members?.filter((member) => member.active === 
                 {tags?.toptags?.tag?.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                         {tags.toptags.tag.slice(0, 5).map((tag, index) => (
-                            <span key={index} className="text-xs bg-purple-900/50 text-purple-300 px-3 py-1 rounded-full">
-                                {tag.name}
-                            </span>
+                            <Link key={index} href={`/genre/${encodeURIComponent(tag.name)}`}>
+                                <span key={index} className="text-xs bg-purple-900/50 text-purple-300 px-3 py-1 rounded-full">
+                                    {tag.name}
+                                </span>
+                            </Link>
                         ))}
                     </div>
                 )}
