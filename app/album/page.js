@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getAlbumInfo } from "@/lib/lastfm";
-import TrackRow from "../components/TrackRow";
+import TrackRow from "@/app/components/TrackRow";
 
 export default async function AlbumPage({searchParams}){
     const resolved = await searchParams
@@ -30,9 +30,7 @@ export default async function AlbumPage({searchParams}){
             </div>
         )
     }
-
-
-    return (
+return (
     <div className="min-h-screen px-6 pt-28 pb-32" style={{
         backgroundImage: "url('/bg-blank.PNG')",
         backgroundSize: "cover",
@@ -50,11 +48,14 @@ export default async function AlbumPage({searchParams}){
             />
             <div className="flex flex-col gap-3 flex-1">
                 <h1 className="text-4xl font-bold text-white">{albumInfo.album.name}</h1>
-<h2 className="text-2xl font-semibold text-purple-400">
-    {typeof albumInfo.album.artist === 'object' 
-        ? albumInfo.album.artist.name 
-        : albumInfo.album.artist}
-</h2>                <div className="flex gap-4 text-sm text-zinc-400">
+                <Link href={`/discover?q=${encodeURIComponent(typeof albumInfo.album.artist === 'object' ? albumInfo.album.artist.name : albumInfo.album.artist)}`}>
+                    <h2 className="text-2xl font-semibold text-purple-400 hover:text-purple-300 transition-colors">
+                        {typeof albumInfo.album.artist === 'object'
+                            ? albumInfo.album.artist.name
+                            : albumInfo.album.artist}
+                    </h2>
+                </Link>
+                <div className="flex gap-4 text-sm text-zinc-400">
                     <span>{parseInt(albumInfo.album.listeners).toLocaleString()} listeners</span>
                     <span>{parseInt(albumInfo.album.playcount).toLocaleString()} plays</span>
                 </div>
@@ -69,9 +70,18 @@ export default async function AlbumPage({searchParams}){
                 )}
             </div>
         </div>
-            {albumInfo.album.tracks?.track?.map((track, index) => (
-                <TrackRow key={track.url} track={track} index={index}/>
-            ))}
+
+        {/* Tracklist */}
+        {albumInfo.album.tracks?.track?.length > 0 && (
+            <section className="mb-12">
+                <h2 className="text-lg font-semibold text-zinc-300 mb-4">Tracklist</h2>
+                <div className="flex flex-col gap-2">
+                    {albumInfo.album.tracks.track.map((track, index) => (
+                        <TrackRow key={track.url} track={track} index={index} />
+                    ))}
+                </div>
+            </section>
+        )}
     </div>
 )
 }
