@@ -59,15 +59,17 @@ return (
                     <span>{parseInt(albumInfo.album.listeners).toLocaleString()} listeners</span>
                     <span>{parseInt(albumInfo.album.playcount).toLocaleString()} plays</span>
                 </div>
-                {albumInfo.album.tags?.tag?.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                        {albumInfo.album.tags.tag.slice(0, 5).map((tag, index) => (
-                            <span key={index} className="text-xs bg-purple-900/50 text-purple-300 px-3 py-1 rounded-full">
-                                {tag.name}
-                            </span>
-                        ))}
-                    </div>
-                )}
+                    {albumInfo.album.tags?.tag?.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                            {albumInfo.album.tags.tag.slice(0, 5).map((tag, index) => (
+                                <Link key={index} href={`/genre/${encodeURIComponent(tag.name)}`}>
+                                    <span className="text-xs bg-purple-900/50 text-purple-300 px-3 py-1 rounded-full hover:bg-purple-800 transition-colors">
+                                        {tag.name}
+                                    </span>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
             </div>
         </div>
 

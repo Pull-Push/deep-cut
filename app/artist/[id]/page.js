@@ -35,7 +35,9 @@ export default async function ArtistPage({ params }) {
     ) 
 }
     const discogsArtist = await getDiscogsArtist(id);
-    const [lastfmArtist, similarArtists, tags, topAlbums] = await Promise.all([getArtist(discogsArtist.name), getSimilarArtists(discogsArtist.name), getArtistTags(discogsArtist.name), getArtistTopAlbums(discogsArtist.name)])
+    const cleanName = discogsArtist.name.replace(/\s*\(\d+\)$/, '');
+
+    const [lastfmArtist, similarArtists, tags, topAlbums] = await Promise.all([getArtist(cleanName), getSimilarArtists(cleanName), getArtistTags(cleanName), getArtistTopAlbums(cleanName)])
 
     if(!discogsArtist || !lastfmArtist){
         return(
