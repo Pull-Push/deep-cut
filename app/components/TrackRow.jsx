@@ -7,29 +7,37 @@ import { useState } from "react";
 export default function TrackRow({ track, index }) {
     const router = useRouter()
     const artistName = typeof track.artist === 'object' ? track.artist.name : track.artist
-    const[loading, setLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
-    async function handlePlay(e) {
-    e.stopPropagation();
-    setLoading(true)
-    const response = await fetch(
-        `/api/spotify/play?track=${encodeURIComponent(track.name)}&artist=${encodeURIComponent(artistName)}`
-    );
-    
-    if (!response.ok) {
-        setLoading(false)
-        return;
+    async function handleSpotify(e) {
+        e.stopPropagation();
+        setIsLoading(true);
+        const response = await fetch(
+            `/api/spotify/play?track=${encodeURIComponent(track.name)}&artist=${encodeURIComponent(artistName)}`
+        );
+        setIsLoading(false);
+        if (!response.ok) return;
+        const data = await response.json();
+        if (data.uri) {
+            const trackId = data.uri.split(':')[2];
+            window.open(`https://open.spotify.com/track/${trackId}`, 'spotify-player');
+        }
     }
-    
-    const data = await response.json();
-    setLoading(false)
-    
-if (data.uri) {
-    const trackId = data.uri.split(':')[2];
-    const webUrl = `https://open.spotify.com/track/${trackId}`;
-    window.open(webUrl, 'spotify-player');
-}
-}
+
+    function handleApple(e) {
+        e.stopPropagation();
+        window.open(`https://music.apple.com/search?term=${encodeURIComponent(`${artistName} ${track.name}`)}`, 'apple-music');
+    }
+
+    function handleYouTube(e) {
+        e.stopPropagation();
+        window.open(`https://music.youtube.com/search?q=${encodeURIComponent(`${artistName} ${track.name}`)}`, 'youtube-music');
+    }
+
+    function handleAmazon(e) {
+        e.stopPropagation();
+        window.open(`https://music.amazon.com/search/${encodeURIComponent(`${artistName} ${track.name}`)}`, 'amazon-music');
+    }
 
     return(
         <div onClick={() => router.push(`/track?artist=${encodeURIComponent(artistName)}&track=${encodeURIComponent(track.name)}`)} className="flex items-center gap-4 p-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 transition-colors cursor-pointer">
@@ -39,13 +47,20 @@ if (data.uri) {
                 <p className="text-sm text-white font-medium truncate">{track.name}</p>
                 <p className="text-xs text-zinc-400 truncate">{artistName}</p>
             </div>
-                <button
-    onClick={handlePlay}
-    disabled={loading}
-    className="text-xs bg-green-600 hover:bg-green-500 disabled:bg-zinc-700 disabled:cursor-not-allowed text-white px-3 py-1 rounded-full transition-colors flex-shrink-0"
->
-    {loading ? '...' : '▶ Spotify'}
-</button>
+            <div className="flex items-center gap-2 flex-shrink-0">
+                <button onClick={handleSpotify} disabled={isLoading} className="text-xs bg-green-600 hover:bg-green-500 disabled:bg-zinc-700 disabled:cursor-not-allowed text-white px-3 py-1 rounded-full transition-colors">
+                    {isLoading ? '...' : 'Spotify'}
+                </button>
+                <button onClick={handleApple} className="text-xs bg-zinc-700 hover:bg-zinc-600 text-white px-3 py-1 rounded-full transition-colors">
+                    Apple
+                </button>
+                <button onClick={handleYouTube} className="text-xs bg-red-700 hover:bg-red-600 text-white px-3 py-1 rounded-full transition-colors">
+                    YT Music
+                </button>
+                <button onClick={handleAmazon} className="text-xs bg-blue-700 hover:bg-blue-600 text-white px-3 py-1 rounded-full transition-colors">
+                    Amazon
+                </button>
+            </div>
         </div>
     )
 }
