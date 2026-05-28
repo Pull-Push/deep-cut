@@ -46,10 +46,6 @@ export default async function LabelPage({ params, searchParams }) {
     const releases = rosterData?.releases ?? []
     const pagination = rosterData?.pagination
 
-    const formats = [...new Set(releases.map(r => r.format).filter(Boolean))];
-    console.log('formats', formats);
-
-
     if(!releases || !labelInfo){
         return(
             <div className="flex min-h-screen items-center justify-center">
@@ -67,7 +63,7 @@ export default async function LabelPage({ params, searchParams }) {
         backgroundRepeat: "no-repeat",
     }}>
         {/* Label Header */}
-        <div className="flex items-start gap-8 mb-12">
+        <div className="flex flex-col sm:flex-row items-start gap-8 mb-12">
             <Image
                 src={labelInfo.images?.[0]?.uri || "/placeholder.png"}
                 alt={labelInfo.name}

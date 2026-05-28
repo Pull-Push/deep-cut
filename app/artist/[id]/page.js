@@ -57,7 +57,7 @@ const pastMembers = discogsArtist.members?.filter((member) => member.active === 
         backgroundRepeat: "no-repeat",
     }}>
         {/* Artist Header */}
-        <div className="flex items-start gap-8 mb-12">
+            <div className="flex flex-col sm:flex-row items-start gap-8 mb-12">            
             <Image
                 src={discogsArtist.images?.[0]?.uri || "/placeholder.png"}
                 alt={discogsArtist.name}

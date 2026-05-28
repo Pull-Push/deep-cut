@@ -49,7 +49,7 @@ export default async function TrackPage({searchParams}){
         backgroundRepeat: "no-repeat",
     }}>
         {/* Album Header */}
-        <div className="flex items-start gap-8 mb-12">
+        <div className="flex flex-col sm:flex-row items-start gap-8 mb-12">
             <Image
                 src={trackInfo.track.album.image?.[3]?.['#text'] || "/placeholder.png"}
                 alt={trackInfo.track.album.title}

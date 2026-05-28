@@ -38,7 +38,7 @@ return (
         backgroundRepeat: "no-repeat",
     }}>
         {/* Album Header */}
-        <div className="flex items-start gap-8 mb-12">
+        <div className="flex flex-col sm:flex-row items-start gap-8 mb-12">
             <Image
                 src={albumInfo.album.image?.[3]?.['#text'] || "/placeholder.png"}
                 alt={albumInfo.album.name}

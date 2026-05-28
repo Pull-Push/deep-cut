@@ -36,7 +36,7 @@ export default async function ReleasePage({ params }) {
         backgroundRepeat: "no-repeat",
     }}>
         {/* Release Header */}
-        <div className="flex items-start gap-8 mb-12">
+        <div className="flex flex-col sm:flex-row items-start gap-8 mb-12">
             <Image
                 src={release.images?.[0]?.uri || "/placeholder.png"}
                 alt={release.title}
