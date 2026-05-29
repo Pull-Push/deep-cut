@@ -8,7 +8,7 @@ import { searchDiscogsLabel, searchDiscogsArtist } from "@/lib/discogs";
 import { searchAlbum, searchTrack, searchArtist, getTagTopArtists, getTagTopAlbums } from "@/lib/lastfm";
 
 export const dynamic = 'force-dynamic';
-const featuredGenres = ['punk rock', 'indie', 'hip-hop', 'jazz', 'metal', 'alternative', 'electronic', 'folk', 'r&b', 'hardcore', 'pop punk', 'post-hardcore', 'classic rock', 'blues', 'reggae'];
+const featuredGenres = ['punk rock', 'indie', 'hip-hop', 'jazz', 'metal', 'alternative', 'electronic', 'folk', 'r&b', 'hardcore', 'pop punk', 'post-hardcore', 'classic rock', 'blues', 'reggae', 'rock', 'british', 'dance', '80s', 'acoustic', 'country', 'classical', 'rap', 'metal', 'pop'];
 function getRandomGenre() {
     return featuredGenres[Math.floor(Math.random() * featuredGenres.length)];
 }
