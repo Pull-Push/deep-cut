@@ -2,6 +2,7 @@ import { Geist, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import SearchBar from "@/app/components/SearchBar";
+import ScrollToTop from "@/app/components/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,12 +19,16 @@ const barlowCondensed = Barlow_Condensed({
 export const metadata = {
   title: "Deep Cut",
   description: "Discover music by label, genre, and beyond",
+  icons: {
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${barlowCondensed.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-zinc-950 text-white">
+      <ScrollToTop />
         <nav className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-md px-6 py-4">
           <div className="flex flex-col gap-2">
             {/* Main row */}
@@ -33,7 +38,7 @@ export default function RootLayout({ children }) {
                 Deep Cut
               </Link>
               {/* Center — Search */}
-              <div className="hidden lg:block w-72">
+              <div className="hidden lg:block w-96">
                 <SearchBar />
               </div>
               {/* Right — Links */}
@@ -51,7 +56,6 @@ export default function RootLayout({ children }) {
         <main className="flex-1">
           {children}
         </main>
-        
         </body>
     </html>
   );

@@ -41,7 +41,7 @@ if(!query){
             {topArtists?.topartists?.artist?.length > 0 && (
                 <section className="mb-12">
                     <h2 className="text-lg font-semibold text-zinc-300 mb-4">Top Artists</h2>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-3">
                         {topArtists.topartists.artist.slice(0, 15).map((artist) => (
                             <Link key={artist.url} href={`/discover?q=${encodeURIComponent(artist.name)}`}>
                                 <span className="text-sm bg-zinc-800 text-zinc-300 px-4 py-2 rounded-full hover:bg-zinc-700 transition-colors">
