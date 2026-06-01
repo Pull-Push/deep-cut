@@ -36,16 +36,16 @@ export default async function ArtistPage({ params }) {
 }
     const discogsArtist = await getDiscogsArtist(id);
     const cleanName = discogsArtist.name.replace(/\s*\(\d+\)$/, '');
-
-    const [lastfmArtist, similarArtists, tags, topAlbums] = await Promise.all([getArtist(cleanName), getSimilarArtists(cleanName), getArtistTags(cleanName), getArtistTopAlbums(cleanName)])
-
-    if(!discogsArtist || !lastfmArtist){
+    
+    if(!discogsArtist){
         return(
             <div className="flex min-h-screen items-center justify-center">
                 <p className="text-zinc-400">Something went wrong. Please try again</p>
             </div>
         )
     }
+    const [lastfmArtist, similarArtists, tags, topAlbums] = await Promise.all([getArtist(cleanName), getSimilarArtists(cleanName), getArtistTags(cleanName), getArtistTopAlbums(cleanName)])
+
 const activeMembers = discogsArtist.members?.filter((member) => member.active === true) ?? []
 const pastMembers = discogsArtist.members?.filter((member) => member.active === false) ?? []
 
@@ -67,25 +67,31 @@ const pastMembers = discogsArtist.members?.filter((member) => member.active === 
             />
             <div className="flex flex-col gap-3 flex-1">
                 <h1 className="text-4xl font-bold text-white">{discogsArtist.name}</h1>
-                <div className="flex gap-4 text-sm text-zinc-400">
+                { lastfmArtist && (
+                    
+                    <div className="flex gap-4 text-sm text-zinc-400">
                     <span>{parseInt(lastfmArtist.artist?.stats?.listeners).toLocaleString()} listeners</span>
                     <span>{parseInt(lastfmArtist.artist?.stats?.playcount).toLocaleString()} plays</span>
                     {lastfmArtist.artist?.ontour === 1 && (
                         <span className="text-green-400">● On Tour</span>
                     )}
                 </div>
+                )}
                 {tags?.toptags?.tag?.length > 0 && (
                     <div className="flex flex-wrap gap-2">
-                        {tags.toptags.tag.slice(0, 5).map((tag, index) => (
-                            <Link key={index} href={`/genre/${encodeURIComponent(tag.name)}`}>
-                                <span key={index} className="text-xs bg-purple-900/50 text-purple-300 px-3 py-1 rounded-full">
+                    {tags.toptags.tag.slice(0, 5).map((tag, index) => (
+                        <Link key={index} href={`/genre/${encodeURIComponent(tag.name)}`}>
+                                <span className="text-xs bg-purple-900/50 text-purple-300 px-3 py-1 rounded-full">
                                     {tag.name}
                                 </span>
                             </Link>
                         ))}
-                    </div>
-                )}
+                        </div>
+                    )}
+            {lastfmArtist && (
+
                 <ArtistBio summary={lastfmArtist.artist.bio.summary} content={lastfmArtist.artist.bio.content}/>
+            )}
                 {discogsArtist.urls?.[0] && (
                     <Link href={discogsArtist.urls[0]} target="_blank" rel="noopener noreferrer" className="text-sm text-purple-400 hover:text-purple-300">
                         Official Website ↗
@@ -147,14 +153,15 @@ const pastMembers = discogsArtist.members?.filter((member) => member.active === 
     )}
 </div>
 
-        {/* Albums */}
-        <section>
+    {/* Albums */}
+{ lastfmArtist && (
+    <section>
             <h2 className="text-lg font-semibold text-zinc-300 mb-4">Albums</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {deduplicateAlbums(topAlbums?.topalbums?.album ?? []).map((album) => (
                     <Link
-                        key={album.url}
-                        href={`/album?artist=${encodeURIComponent(album.artist.name)}&album=${encodeURIComponent(album.name)}`}
+                    key={album.url}
+                    href={`/album?artist=${encodeURIComponent(album.artist.name)}&album=${encodeURIComponent(album.name)}`}
                     >
                         <div className="flex flex-col gap-2 p-3 rounded-xl bg-black/40 hover:bg-black/60 transition-colors cursor-pointer">
                             <Image
@@ -163,7 +170,7 @@ const pastMembers = discogsArtist.members?.filter((member) => member.active === 
                                 width={200}
                                 height={200}
                                 className="w-full aspect-square object-cover rounded-lg"
-                            />
+                                />
                             <p className="text-sm text-white font-medium truncate">{album.name}</p>
                             <p className="text-xs text-zinc-400">{parseInt(album.playcount)?.toLocaleString()} plays</p>
                         </div>
@@ -171,6 +178,7 @@ const pastMembers = discogsArtist.members?.filter((member) => member.active === 
                 ))}
             </div>
         </section>
+            )}
     </div>
 )
 }
